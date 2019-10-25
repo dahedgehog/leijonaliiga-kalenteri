@@ -3,11 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fullcalendar/bootstrap": "^4.3.0",
+    "@fullcalendar/core": "^4.3.1",
+    "@fullcalendar/daygrid": "^4.3.0",
+    "@fullcalendar/react": "^4.3.0",
+    "@fullcalendar/timegrid": "^4.3.0",
     "@types/jest": "24.0.19",
     "@types/node": "12.11.7",
     "@types/react": "16.9.11",
+    "@types/react-bootstrap": "^0.32.20",
     "@types/react-dom": "16.9.3",
+    "bootstrap": "^4.3.1",
     "react": "^16.11.0",
+    "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
     "typescript": "3.6.4"
@@ -32,5 +40,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
