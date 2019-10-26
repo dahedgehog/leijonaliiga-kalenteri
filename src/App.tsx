@@ -1,18 +1,21 @@
-import React from "react";
-import { Navbar, Container, Nav, Card, Row, Col, Form } from "react-bootstrap";
-import FullCalendar from "@fullcalendar/react";
-import bootstap from "@fullcalendar/bootstrap";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
+import React, { useState, useEffect } from "react";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import "./App.css";
-import "@fullcalendar/core/main.css";
-import "@fullcalendar/bootstrap/main.css";
-import "@fullcalendar/daygrid/main.css";
-import "@fullcalendar/timegrid/main.css";
-const fiLocale = require("@fullcalendar/core/locales/fi");
+import MatchCalendar from "./components/MatchCalendar";
+import MatchRecordForm from "./components/MatchRecordForm";
 
+interface TeamsResponse {
+  teams: string[];
+}
 const App: React.FC = () => {
-  const teams = ["Blue 1", "Blue 2", "Blue 3", "Blue 4", "White 1", "White 2", "White 3", "White 4"];
+  const [teams, setTeams] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("/allteams")
+      .then(res => res.json())
+      .then(json => json as TeamsResponse)
+      .then(teams => setTeams(teams.teams));
+  }, []);
+
   return (
     <>
       <Container>
@@ -34,70 +37,9 @@ const App: React.FC = () => {
         <MatchCalendar teams={teams} />
       </Container>
       <Container className="sisalto">
-        <MatchRecord teams={teams} />
+        <MatchRecordForm teams={teams} />
       </Container>
     </>
-  );
-};
-
-const MatchCalendar: React.FC<{ teams: string[] }> = ({ teams }) => {
-  return (
-    <Card className="border-0">
-      <Card.Header as="h5" className="ylapalkki text-white">
-        Joukkueen otteluohjelma
-      </Card.Header>
-      <Card.Body>
-        <TeamSelect teams={teams} allowAll/>
-        <Row>
-          <Col sm={12}>
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, bootstap]}
-              header={{
-                left: "dayGridMonth,timeGridWeek",
-                center: "title",
-                right: "today prev,next"
-              }}
-              defaultView="dayGridMonth"
-              themeSystem="bootstrap"
-              locale={fiLocale}
-              minTime="06:00"
-              maxTime="22:00"
-            />
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
-  );
-};
-
-const MatchRecord: React.FC<{ teams: string[] }> = ({ teams }) => {
-  return (
-    <Card className="border-0">
-      <Card.Header as="h5" className="ylapalkki text-white">
-        Ottelupäivän tiedot
-      </Card.Header>
-      <Card.Body>
-        <TeamSelect teams={teams} />
-      </Card.Body>
-    </Card>
-  );
-};
-
-const TeamSelect: React.FC<{ teams: string[]; allowAll?: boolean }> = ({ teams, allowAll }) => {
-  return (
-    <Row>
-      <Col sm={12}>
-        <Form.Group>
-          <Form.Label>Joukkue:</Form.Label>
-          <Form.Control as="select" className="custom-select">
-            {allowAll && <option value="">&lt;Kaikki joukkueet&gt;</option>}
-            {teams.map(team => (
-              <option value={team}>Blues JR {team}</option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-    </Row>
   );
 };
 

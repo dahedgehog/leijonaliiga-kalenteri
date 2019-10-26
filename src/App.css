@@ -16,3 +16,7 @@
 .sisalto {
   margin-top: 1em;
 }
+
+.fc-event {
+  cursor: pointer;
+}
