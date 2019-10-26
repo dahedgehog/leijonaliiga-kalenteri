@@ -9,6 +9,7 @@ interface TeamsResponse {
 }
 const App: React.FC = () => {
   const [teams, setTeams] = useState<string[]>([]);
+  const [tab, setTab] = useState<number>(1);
   useEffect(() => {
     fetch("/allteams")
       .then(res => res.json())
@@ -22,22 +23,24 @@ const App: React.FC = () => {
         <Navbar variant="dark" expand="lg" className="rounded-bottom ylapalkki">
           <Navbar.Brand href="#">
             <img src="/static/logo90.png" height="30" className="d-inline-block align-top" alt="Blues Juniors" />
-            {" Blues Juniors"}
+            {" Blues Juniors F1"}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#home">Otteluohjelma</Nav.Link>
-              <Nav.Link href="#link">Pöytäkirja</Nav.Link>
+              <Nav.Link active={tab === 1} href="#home" onClick={() => setTab(1)}>
+                Otteluohjelma
+              </Nav.Link>
+              <Nav.Link active={tab === 2} href="#link" onClick={() => setTab(2)}>
+                Pöytäkirja
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </Container>
       <Container className="sisalto">
-        <MatchCalendar teams={teams} />
-      </Container>
-      <Container className="sisalto">
-        <MatchRecordForm teams={teams} />
+        {tab === 1 && <MatchCalendar teams={teams} />}
+        {tab === 2 && <MatchRecordForm teams={teams} />}
       </Container>
     </>
   );
