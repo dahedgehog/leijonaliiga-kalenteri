@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col, Modal, Button, Container } from "react-bootstrap";
+import { Card, Row, Col, Modal, Container } from "react-bootstrap";
 import TeamSelect from "./TeamSelect";
 import moment from "moment";
 import FullCalendar from "@fullcalendar/react";
@@ -15,6 +15,8 @@ import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 const fiLocale = require("@fullcalendar/core/locales/fi");
 
+const COLORS = ["#FFB878", "#7AE7BF", "#46D6DB", "#A4BDFC", "#FBD75B", "#FF887C", "#DBADFF", "#A4BDFC"];
+
 interface MatchCalendarProps {
   teams: string[];
 }
@@ -28,13 +30,14 @@ const MatchCalendar: React.FC<MatchCalendarProps> = ({ teams }) => {
     const fetchMatches = (teams: string[]) => {
       Promise.all(teams.map(team => fetch("/events/" + team).then(res => res.json()))).then(
         (allMatches: EventInput[][]) => {
-          const flattened = allMatches.flatMap(matches => {
+          const flattened = allMatches.flatMap((matches, index) => {
             return matches.reduce(
               (prev, match) => {
                 const found = prev.find(m => m.start === match.start);
                 if (!!found) {
                   found.title = found.title + ", " + match.title;
                 } else {
+                  match.backgroundColor = COLORS[index % 8];
                   prev.push(match);
                 }
                 return prev;
