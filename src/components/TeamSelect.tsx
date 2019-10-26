@@ -20,7 +20,9 @@ const TeamSelect: React.FC<TeamSelectProps> = ({ teams, allowAll, teamSelected }
           >
             {allowAll && <option value="">&lt;Kaikki joukkueet&gt;</option>}
             {teams.map(team => (
-              <option key={team} value={team}>Blues JR {team}</option>
+              <option key={team} value={team}>
+                Blues JR {team}
+              </option>
             ))}
           </Form.Control>
         </Form.Group>
