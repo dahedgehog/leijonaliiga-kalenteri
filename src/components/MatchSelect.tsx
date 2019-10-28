@@ -28,7 +28,7 @@ const MatchSelect: React.FC<MatchSelectProps> = ({ title, matches, matchSelected
         >
           <option value="">&lt;Ei ottelua&gt;</option>
           {matches.map(match => (
-            <option value={match.id} disabled={match.away.includes("Blues JR")}>
+            <option key={match.id} value={match.id} disabled={match.away.includes("Blues JR")}>
               {match.date + " - " + match.home + " vs. " + match.away}
             </option>
           ))}

@@ -31,7 +31,7 @@ const App: React.FC = () => {
               <Nav.Link active={tab === 1} href="#home" onClick={() => setTab(1)}>
                 Otteluohjelma
               </Nav.Link>
-              <Nav.Link active={tab === 2} href="#link" onClick={() => setTab(2)}>
+              <Nav.Link active={tab === 2} href="#game" onClick={() => setTab(2)}>
                 Pöytäkirja
               </Nav.Link>
             </Nav>
